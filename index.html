@@ -44,7 +44,7 @@ body{
 h1,h2,h3,.brand{font-family:'Bebas Neue',sans-serif;letter-spacing:1px;}
 a{text-decoration:none;color:inherit;}
 img,video{max-width:100%;display:block;}
-.container{width:90%;max-width:1200px;margin:0 auto;}
+.container{width:100%;max-width:1200px;margin:0 auto;padding:0 max(24px,5%);box-sizing:border-box;}
 section{position:relative;padding:120px 0;}
 .section-tag{
   display:inline-block;color:var(--accent);font-weight:600;letter-spacing:3px;
@@ -142,11 +142,14 @@ header.scrolled{
      regardless of the (now off-canvas) nav-links element in between. */
   .nav-wrap{display:flex;justify-content:space-between;align-items:center;}
   .nav-links{
-    position:fixed;top:0;right:-100%;height:100vh;width:70%;max-width:320px;
+    position:fixed;top:0;right:-100%;height:100vh;width:78%;max-width:320px;
     background:var(--bg-soft);flex-direction:column;justify-content:center;
+    align-items:flex-start;gap:30px;
+    padding:0 20px 0 48px;box-sizing:border-box;
     transition:right .4s ease;border-left:1px solid var(--border);
     z-index:501;
   }
+  .nav-links a{font-size:19px;letter-spacing:2px;}
   .nav-links.open{right:0;}
   .nav-right{justify-self:auto;}
   .burger{display:flex;position:relative;z-index:502;}
@@ -154,11 +157,10 @@ header.scrolled{
 
 @media(max-width:640px){
   section{padding:80px 0;}
-  .container{width:92%;}
   .hero-cta{gap:12px;}
   .btn{padding:14px 24px;font-size:13px;}
   .stats-row{flex-wrap:wrap;gap:24px;}
-  .about-img-wrap{max-width:320px;margin:0 auto;}
+  .about-img-wrap{max-width:240px;margin:0 auto;}
 }
 
 /* ---------- Hero ---------- */
@@ -283,6 +285,7 @@ header.scrolled{
 }
 .skill-card:hover{transform:translateY(-10px);border-color:var(--accent);}
 .skill-card .icon{font-size:38px;margin-bottom:16px;}
+.skill-card .icon img{width:44px;height:44px;border-radius:10px;display:block;}
 .skill-card h3{font-family:'Poppins';font-weight:600;font-size:17px;margin-bottom:8px;}
 .skill-card p{color:var(--text-dim);font-size:13px;line-height:1.6;}
 @media(max-width:760px){.skills-grid{grid-template-columns:1fr;}}
@@ -395,10 +398,8 @@ footer a{color:var(--accent);}
     <ul class="nav-links" id="navLinks">
       <li><a href="#home">Home</a></li>
       <li><a href="#about">About</a></li>
-      <li><a href="#skills">Skills</a></li>
       <li><a href="#experience">Experience</a></li>
       <li><a href="#work">Work</a></li>
-      <li><a href="#contact">Contact</a></li>
     </ul>
 
     <div class="nav-right">
@@ -475,17 +476,17 @@ footer a{color:var(--accent);}
 
     <div class="skills-grid">
       <div class="skill-card reveal">
-        <div class="icon">🎬</div>
+        <div class="icon"><img src="assets/icon-pr.png" alt="Adobe Premiere Pro"></div>
         <h3>Adobe Premiere Pro</h3>
         <p>Primary tool for long-form cinematic editing, multi-cam sync, and color correction.</p>
       </div>
       <div class="skill-card reveal">
-        <div class="icon">✨</div>
+        <div class="icon"><img src="assets/icon-ae.png" alt="Adobe After Effects"></div>
         <h3>Adobe After Effects</h3>
         <p>Motion graphics, VFX, title animation, and advanced compositing for standout visuals.</p>
       </div>
       <div class="skill-card reveal">
-        <div class="icon">📱</div>
+        <div class="icon"><img src="assets/icon-capcut.png" alt="CapCut"></div>
         <h3>CapCut</h3>
         <p>Fast-turnaround social edits, reels, and short-form cinematic teasers.</p>
       </div>
@@ -505,7 +506,7 @@ footer a{color:var(--accent);}
         <div class="meta">Kota · Ongoing</div>
         <p>Currently based in Kota, delivering cinematic long-form edits for clients and creators — covering storytelling, color grading, and sound design for brand and creator content.</p>
         <div class="t-item-media">
-          <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Hathi_pole,_Garh_Palace,_Kota.jpg?width=800" alt="Garh Palace, Kota, Rajasthan" loading="lazy">
+          <img src="assets/kota.jpg" alt="Kishore Sagar Lake, Kota, Rajasthan" loading="lazy">
         </div>
         <span class="cap">Kota, Rajasthan — placeholder photo, swap for your own footage/photos later</span>
       </div>
@@ -514,7 +515,7 @@ footer a{color:var(--accent);}
         <div class="meta">Chandigarh · 1.5+ Years</div>
         <p>Built a strong foundation over 1.5+ years editing long-form and cinematic-style videos in Chandigarh, working closely with creators to refine pacing and visual storytelling.</p>
         <div class="t-item-media">
-          <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Sukhna_Lake_Chandigarh_2025.jpg?width=800" alt="Sukhna Lake, Chandigarh" loading="lazy">
+          <img src="assets/chandigarh-1.jpg" alt="Chandigarh cityscape" loading="lazy">
         </div>
         <span class="cap">Chandigarh — placeholder photo, swap for your own footage/photos later</span>
       </div>
@@ -531,8 +532,8 @@ footer a{color:var(--accent);}
 
     <div class="work-grid">
       <div class="work-card reveal">
-        <video muted loop playsinline autoplay src="https://assets.mixkit.co/videos/preview/mixkit-tree-with-yellow-flowers-1173-large.mp4" onmouseover="this.play()" onmouseout="this.pause()"></video>
-        <div class="work-overlay"><span>Cinematic</span><h4>Travel Story Edit</h4></div>
+        <video muted loop playsinline autoplay src="https://assets.mixkit.co/videos/41576/41576-720.mp4" onmouseover="this.play()" onmouseout="this.pause()"></video>
+        <div class="work-overlay"><span>Cinematic</span><h4>Travel Story</h4></div>
         <div class="play-btn">▶</div>
       </div>
       <div class="work-card reveal">
@@ -541,18 +542,8 @@ footer a{color:var(--accent);}
         <div class="play-btn">▶</div>
       </div>
       <div class="work-card reveal">
-        <video muted loop playsinline autoplay src="https://assets.mixkit.co/videos/preview/mixkit-waves-in-the-sea-1164-large.mp4" onmouseover="this.play()" onmouseout="this.pause()"></video>
+        <video muted loop playsinline autoplay src="https://assets.mixkit.co/videos/44070/44070-720.mp4" onmouseover="this.play()" onmouseout="this.pause()"></video>
         <div class="work-overlay"><span>Brand Film</span><h4>Product Story</h4></div>
-        <div class="play-btn">▶</div>
-      </div>
-      <div class="work-card reveal">
-        <video muted loop playsinline autoplay src="https://assets.mixkit.co/videos/9665/9665-720.mp4" onmouseover="this.play()" onmouseout="this.pause()"></video>
-        <div class="work-overlay"><span>Color Grade</span><h4>City Timelapse Cut</h4></div>
-        <div class="play-btn">▶</div>
-      </div>
-      <div class="work-card reveal">
-        <video muted loop playsinline autoplay src="https://assets.mixkit.co/videos/50990/50990-720.mp4" onmouseover="this.play()" onmouseout="this.pause()"></video>
-        <div class="work-overlay"><span>Night Reel</span><h4>Urban Motion Edit</h4></div>
         <div class="play-btn">▶</div>
       </div>
     </div>
