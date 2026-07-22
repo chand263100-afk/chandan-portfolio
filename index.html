@@ -505,7 +505,7 @@ footer a{color:var(--accent);}
       <div class="stats-row reveal">
         <div class="stat"><h3>1.5+</h3><span>Years Experience</span></div>
         <div class="stat"><h3>2+</h3><span>Cities Worked In</span></div>
-        <div class="stat"><h3>50+</h3><span>Projects Delivered</span></div>
+        <div class="stat"><h3>1K+</h3><span>Projects Delivered</span></div>
       </div>
     </div>
   </div>
@@ -712,13 +712,20 @@ document.querySelectorAll('.reveal').forEach((el)=>{
   });
 });
 
-/* Stat count-up */
+/* Stat count-up — parses the number and whatever suffix follows it (+, K+, etc.)
+   so it works cleanly regardless of format, instead of guessing from string checks. */
 document.querySelectorAll('.stat h3').forEach(el=>{
-  const val = parseFloat(el.textContent);
-  gsap.from(el,{
-    textContent:0, duration:1.6, ease:'power1.out', snap:{textContent:1},
+  const raw = el.textContent.trim();
+  const match = raw.match(/^([\d.]+)(.*)$/);
+  if(!match) return;
+  const endVal = parseFloat(match[1]);
+  const suffix = match[2];
+  const isDecimal = match[1].includes('.');
+  const counter = {val:0};
+  gsap.to(counter, {
+    val:endVal, duration:1.6, ease:'power1.out',
     scrollTrigger:{ trigger: el, start:'top 90%' },
-    onUpdate(){ el.textContent = Math.ceil(this.targets()[0].textContent) + (val % 1 !== 0 ? '+' : (el.textContent.includes('+') ? '' : '')); }
+    onUpdate(){ el.textContent = (isDecimal ? counter.val.toFixed(1) : Math.ceil(counter.val)) + suffix; }
   });
 });
 
