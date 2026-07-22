@@ -106,13 +106,27 @@ header.scrolled{
 .burger span{width:26px;height:2px;background:var(--text);}
 
 @media(max-width:860px){
+  /* Switch the nav row to flex so brand and actions pin to opposite corners
+     regardless of the (now off-canvas) nav-links element in between. */
+  .nav-wrap{display:flex;justify-content:space-between;align-items:center;}
   .nav-links{
     position:fixed;top:0;right:-100%;height:100vh;width:70%;max-width:320px;
     background:var(--bg-soft);flex-direction:column;justify-content:center;
     transition:right .4s ease;border-left:1px solid var(--border);
+    z-index:501;
   }
   .nav-links.open{right:0;}
-  .burger{display:flex;}
+  .nav-right{justify-self:auto;}
+  .burger{display:flex;position:relative;z-index:502;}
+}
+
+@media(max-width:640px){
+  section{padding:80px 0;}
+  .container{width:92%;}
+  .hero-cta{gap:12px;}
+  .btn{padding:14px 24px;font-size:13px;}
+  .stats-row{flex-wrap:wrap;gap:24px;}
+  .about-img-wrap{max-width:320px;margin:0 auto;}
 }
 
 /* ---------- Hero ---------- */
@@ -221,6 +235,15 @@ header.scrolled{
 .t-item h3{font-size:22px;font-family:'Poppins';font-weight:700;}
 .t-item .meta{color:var(--accent);font-size:13px;text-transform:uppercase;letter-spacing:1px;margin:6px 0 10px;}
 .t-item p{color:var(--text-dim);max-width:600px;line-height:1.7;font-size:15px;}
+.t-item-media{
+  margin-top:18px;border-radius:14px;overflow:hidden;max-width:420px;
+  aspect-ratio:16/9;background:var(--card);border:1px solid var(--border);
+}
+.t-item-media img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease;}
+.t-item-media:hover img{transform:scale(1.06);}
+.t-item-media .cap{
+  display:block;font-size:11px;color:var(--text-dim);margin-top:6px;letter-spacing:.5px;
+}
 
 /* ---------- Portfolio ---------- */
 .portfolio{background:var(--bg-soft);}
@@ -354,9 +377,9 @@ footer a{color:var(--accent);}
       <div class="section-tag reveal">About Me</div>
       <h2 class="section-title reveal">Editing isn't just cutting clips — it's telling a story.</h2>
       <p class="section-sub reveal">
-        I'm Chand Verma, a professional video editor with 1.5+ years of experience crafting cinematic, long-form content.
-        I've worked with creators and brands across metropolitan cities including Chandigarh and Kota, delivering edits that combine
-        strong pacing, color grading, and sound design to keep every viewer hooked till the last frame.
+        I'm Chand Verma, a professional video editor currently based in Kota, crafting cinematic, long-form content for
+        creators and brands. Before that, I spent 1.5+ years building my craft in Chandigarh, combining strong pacing,
+        color grading, and sound design to keep every viewer hooked till the last frame.
       </p>
       <div class="stats-row reveal">
         <div class="stat"><h3>1.5+</h3><span>Years Experience</span></div>
@@ -403,13 +426,21 @@ footer a{color:var(--accent);}
     <div class="timeline">
       <div class="t-item reveal">
         <h3>Freelance Video Editor</h3>
-        <div class="meta">Chandigarh · Ongoing</div>
-        <p>Delivering cinematic long-form edits for clients in Chandigarh — covering storytelling, color grading, and sound design for brand and creator content.</p>
+        <div class="meta">Kota · Ongoing</div>
+        <p>Currently based in Kota, delivering cinematic long-form edits for clients and creators — covering storytelling, color grading, and sound design for brand and creator content.</p>
+        <div class="t-item-media">
+          <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Hathi_pole,_Garh_Palace,_Kota.jpg?width=800" alt="Garh Palace, Kota, Rajasthan" loading="lazy">
+        </div>
+        <span class="cap">Kota, Rajasthan — placeholder photo, swap for your own footage/photos later</span>
       </div>
       <div class="t-item reveal">
         <h3>Video Editor</h3>
-        <div class="meta">Kota · 1.5+ Years</div>
-        <p>Built a strong foundation editing long-form and cinematic-style videos, working closely with creators across Kota to refine pacing and visual storytelling.</p>
+        <div class="meta">Chandigarh · 1.5+ Years</div>
+        <p>Built a strong foundation over 1.5+ years editing long-form and cinematic-style videos in Chandigarh, working closely with creators to refine pacing and visual storytelling.</p>
+        <div class="t-item-media">
+          <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Sukhna_Lake_Chandigarh_2025.jpg?width=800" alt="Sukhna Lake, Chandigarh" loading="lazy">
+        </div>
+        <span class="cap">Chandigarh — placeholder photo, swap for your own footage/photos later</span>
       </div>
     </div>
   </div>
