@@ -54,14 +54,46 @@ section{position:relative;padding:120px 0;}
 .section-sub{color:var(--text-dim);max-width:560px;font-size:16px;line-height:1.7;}
 
 /* ---------- Preloader ---------- */
-#preloader{
-  position:fixed;inset:0;background:#0a0a0c;z-index:9999;
-  display:flex;align-items:center;justify-content:center;
+#preloader{position:fixed;inset:0;z-index:9999;}
+.pre-panel{
+  position:fixed;left:0;width:100%;height:51%;background:var(--bg);z-index:9998;
+  overflow:hidden;
 }
-#preloader .loader-text{
-  font-family:'Bebas Neue',sans-serif;font-size:22px;color:#fff;letter-spacing:4px;
-  display:flex; gap:6px;
+.pre-panel::before{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(255,106,0,.18), transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(255,183,3,.12), transparent 55%);
 }
+.pre-panel-top{top:0;}
+.pre-panel-bottom{bottom:0;}
+.pre-content{
+  position:fixed;inset:0;z-index:9999;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:22px;pointer-events:none;
+}
+.pre-logo{
+  font-family:'Bebas Neue',sans-serif;font-size:clamp(38px,7vw,64px);color:#fff;
+  letter-spacing:6px;display:flex;
+}
+.pre-logo span{display:inline-block;opacity:0;transform:translateY(30px);}
+.pre-logo .pre-dot{color:var(--accent);}
+.pre-tag{
+  color:var(--accent2);letter-spacing:4px;text-transform:uppercase;font-size:11px;
+  font-weight:600;opacity:0;margin-top:-10px;
+}
+.pre-progress{display:flex;align-items:center;gap:14px;opacity:0;}
+.pre-bar{width:220px;height:2px;background:rgba(255,255,255,.15);border-radius:2px;overflow:hidden;}
+.pre-bar-fill{width:0%;height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));}
+.pre-count{
+  font-family:'Poppins',sans-serif;font-weight:600;font-size:13px;color:#fff;
+  letter-spacing:1px;min-width:34px;display:flex;
+}
+.pre-pct{color:var(--text-dim);margin-left:1px;}
+@media(max-width:640px){
+  .pre-logo{letter-spacing:4px;}
+  .pre-bar{width:160px;}
+}
+
 
 /* ---------- Nav ---------- */
 header{
@@ -131,8 +163,15 @@ header.scrolled{
 
 /* ---------- Hero ---------- */
 .hero{
-  height:100vh;position:relative;display:flex;align-items:center;overflow:hidden;
+  /* 100vh on mobile Chrome is taller than what's actually visible before the
+     address bar collapses — that's what was pushing the CTAs/scroll-indicator
+     off-screen ("cut off"). dvh tracks the real visible viewport instead. */
+  min-height:100vh;
+  min-height:100svh;
+  min-height:100dvh;
+  position:relative;display:flex;align-items:center;overflow:hidden;
   background:var(--bg);
+  padding:110px 0 60px;
 }
 .hero-bg{
   position:absolute;inset:0;z-index:0;overflow:hidden;
@@ -160,7 +199,7 @@ header.scrolled{
   font-weight:600;margin-bottom:20px;overflow:hidden;
 }
 .hero h1{
-  font-size:clamp(48px,9vw,110px);line-height:0.95;color:#fff;
+  font-size:clamp(40px,9vw,110px);line-height:1;color:#fff;
   overflow:hidden;
 }
 .hero h1 .line{display:block;overflow:hidden;}
@@ -180,7 +219,7 @@ header.scrolled{
 .btn-primary:hover{background:var(--accent2);}
 .btn-outline:hover{background:rgba(255,255,255,.1);}
 .scroll-indicator{
-  position:absolute;bottom:36px;left:50%;transform:translateX(-50%);z-index:2;
+  position:absolute;bottom:28px;left:50%;transform:translateX(-50%);z-index:2;
   color:#fff;font-size:12px;letter-spacing:2px;text-transform:uppercase;
   display:flex;flex-direction:column;align-items:center;gap:10px;opacity:.8;
 }
@@ -191,6 +230,17 @@ header.scrolled{
 }
 @keyframes scrollLine{
   0%{top:-40%;}100%{top:100%;}
+}
+@media(max-width:640px){
+  .hero{padding:100px 0 90px;}
+  .hero h1{font-size:clamp(38px,11vw,64px);}
+  .hero p.sub{font-size:15px;margin-top:18px;}
+  .hero-cta{margin-top:28px;}
+  .scroll-indicator{display:none;} /* saves space + avoids overlapping the float button on short screens */
+}
+@media(min-width:1400px){
+  .hero{padding:110px 0;}
+  .hero-content{max-width:1100px;}
 }
 
 /* ---------- About ---------- */
@@ -310,7 +360,18 @@ footer a{color:var(--accent);}
 <body>
 
 <div id="preloader">
-  <div class="loader-text">C&nbsp;H&nbsp;A&nbsp;N&nbsp;D&nbsp;&nbsp;V&nbsp;E&nbsp;R&nbsp;M&nbsp;A</div>
+  <div class="pre-panel pre-panel-top"></div>
+  <div class="pre-panel pre-panel-bottom"></div>
+  <div class="pre-content">
+    <div class="pre-logo" aria-hidden="true">
+      <span>C</span><span>H</span><span>A</span><span>N</span><span>D</span><span class="pre-dot">.</span>
+    </div>
+    <div class="pre-tag">Cinematic Video Editor</div>
+    <div class="pre-progress">
+      <div class="pre-bar"><div class="pre-bar-fill" id="preBarFill"></div></div>
+      <div class="pre-count"><span id="preCount">00</span><span class="pre-pct">%</span></div>
+    </div>
+  </div>
 </div>
 
 <!-- ================= NAV ================= -->
@@ -341,8 +402,10 @@ footer a{color:var(--accent);}
 <!-- ================= HERO ================= -->
 <section class="hero" id="home">
   <div class="hero-bg">
-    <!-- Replace src below with your own showreel export later -->
-    <video autoplay muted loop playsinline poster="">
+    <!-- Replace src below with your own showreel export later.
+         poster shows instantly and stays visible until the video loads/plays,
+         so drop your AI-generated hero image at assets/hero-bg.jpg -->
+    <video autoplay muted loop playsinline poster="assets/hero-bg.jpg">
       <source src="assets/hero-reel.mp4" type="video/mp4">
     </video>
   </div>
@@ -455,18 +518,28 @@ footer a{color:var(--accent);}
 
     <div class="work-grid">
       <div class="work-card reveal">
-        <video muted loop playsinline src="https://assets.mixkit.co/videos/preview/mixkit-tree-with-yellow-flowers-1173-large.mp4" onmouseover="this.play()" onmouseout="this.pause()"></video>
+        <video muted loop playsinline autoplay src="https://assets.mixkit.co/videos/preview/mixkit-tree-with-yellow-flowers-1173-large.mp4" onmouseover="this.play()" onmouseout="this.pause()"></video>
         <div class="work-overlay"><span>Cinematic</span><h4>Travel Story Edit</h4></div>
         <div class="play-btn">▶</div>
       </div>
       <div class="work-card reveal">
-        <video muted loop playsinline src="https://assets.mixkit.co/videos/preview/mixkit-going-down-a-forest-trail-in-the-snow-32806-large.mp4" onmouseover="this.play()" onmouseout="this.pause()"></video>
+        <video muted loop playsinline autoplay src="https://assets.mixkit.co/videos/preview/mixkit-going-down-a-forest-trail-in-the-snow-32806-large.mp4" onmouseover="this.play()" onmouseout="this.pause()"></video>
         <div class="work-overlay"><span>Long-Form</span><h4>Documentary Cut</h4></div>
         <div class="play-btn">▶</div>
       </div>
       <div class="work-card reveal">
-        <video muted loop playsinline src="https://assets.mixkit.co/videos/preview/mixkit-waves-in-the-sea-1164-large.mp4" onmouseover="this.play()" onmouseout="this.pause()"></video>
+        <video muted loop playsinline autoplay src="https://assets.mixkit.co/videos/preview/mixkit-waves-in-the-sea-1164-large.mp4" onmouseover="this.play()" onmouseout="this.pause()"></video>
         <div class="work-overlay"><span>Brand Film</span><h4>Product Story</h4></div>
+        <div class="play-btn">▶</div>
+      </div>
+      <div class="work-card reveal">
+        <video muted loop playsinline autoplay src="https://assets.mixkit.co/videos/9665/9665-720.mp4" onmouseover="this.play()" onmouseout="this.pause()"></video>
+        <div class="work-overlay"><span>Color Grade</span><h4>City Timelapse Cut</h4></div>
+        <div class="play-btn">▶</div>
+      </div>
+      <div class="work-card reveal">
+        <video muted loop playsinline autoplay src="https://assets.mixkit.co/videos/50990/50990-720.mp4" onmouseover="this.play()" onmouseout="this.pause()"></video>
+        <div class="work-overlay"><span>Night Reel</span><h4>Urban Motion Edit</h4></div>
         <div class="play-btn">▶</div>
       </div>
     </div>
@@ -508,13 +581,39 @@ gsap.registerPlugin(ScrollTrigger);
 document.getElementById('year').textContent = new Date().getFullYear();
 
 /* Preloader */
+gsap.to('.pre-logo span', {opacity:1, y:0, duration:.6, stagger:.05, ease:'power3.out'});
+gsap.to('.pre-tag', {opacity:1, duration:.6, delay:.35});
+gsap.to('.pre-progress', {opacity:1, duration:.6, delay:.5});
+
+const preState = {val:0};
+const preBarFill = document.getElementById('preBarFill');
+const preCount = document.getElementById('preCount');
+function updatePreVisual(){
+  preBarFill.style.width = preState.val + '%';
+  preCount.textContent = String(Math.floor(preState.val)).padStart(2,'0');
+}
+/* Climb to 90% on a timer so there's always visible progress happening,
+   even if assets are slow — then snap to 100% the moment the page finishes loading. */
+gsap.to(preState, {val:90, duration:2.4, ease:'power1.inOut', onUpdate:updatePreVisual, delay:.5});
+
 window.addEventListener('load', () => {
-  gsap.to('#preloader', {
-    opacity:0, duration:.8, delay:.3, ease:'power2.out',
-    onComplete:()=> document.getElementById('preloader').style.display='none'
+  gsap.to(preState, {
+    val:100, duration:.5, ease:'power2.out', onUpdate:updatePreVisual,
+    delay:.6,
+    onComplete: exitPreloader
   });
-  heroIntro();
 });
+
+function exitPreloader(){
+  const exitTl = gsap.timeline({
+    onComplete:() => { document.getElementById('preloader').style.display='none'; }
+  });
+  exitTl
+    .to('.pre-content', {opacity:0, y:-16, duration:.4, ease:'power2.in'})
+    .to('.pre-panel-top', {yPercent:-101, duration:.9, ease:'power4.inOut'}, '-=.1')
+    .to('.pre-panel-bottom', {yPercent:101, duration:.9, ease:'power4.inOut'}, '<')
+    .call(heroIntro, [], '-=.6');
+}
 
 /* Hero text reveal */
 function heroIntro(){
