@@ -323,16 +323,17 @@ header.scrolled{
 
 /* ---------- Portfolio ---------- */
 .portfolio{background:var(--bg-soft);}
-.work-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:60px;}
+.work-grid{display:grid;grid-template-columns:repeat(3,minmax(220px,300px));justify-content:center;gap:24px;margin-top:60px;}
 .work-card{
-  position:relative;border-radius:16px;overflow:hidden;aspect-ratio:4/5;background:#000;
+  position:relative;border-radius:16px;overflow:hidden;aspect-ratio:9/16;background:#000;
   cursor:pointer;
 }
 .work-card video{width:100%;height:100%;object-fit:cover;transition:transform .5s ease;}
-.work-card:hover video{transform:scale(1.08);}
+.work-card:hover video{transform:scale(1.04);}
 .work-overlay{
-  position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,rgba(0,0,0,.85));
-  display:flex;flex-direction:column;justify-content:flex-end;padding:22px;
+  position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.35) 0%,transparent 22%,transparent 55%,rgba(0,0,0,.9) 100%);
+  display:flex;flex-direction:column;justify-content:flex-end;padding:20px;
+  pointer-events:none;
 }
 .work-overlay h4{font-family:'Poppins';font-weight:600;color:#fff;font-size:17px;}
 .work-overlay span{color:var(--accent2);font-size:12px;text-transform:uppercase;letter-spacing:1px;}
@@ -341,11 +342,18 @@ header.scrolled{
   width:56px;height:56px;border-radius:50%;background:rgba(255,255,255,.15);
   border:1px solid rgba(255,255,255,.4);backdrop-filter:blur(6px);
   display:flex;align-items:center;justify-content:center;color:#fff;font-size:20px;
-  transition:transform .35s ease;
+  transition:transform .35s ease,background .2s ease;z-index:3;
 }
-.work-card:hover .play-btn{transform:translate(-50%,-50%) scale(1);}
-@media(max-width:900px){.work-grid{grid-template-columns:repeat(2,1fr);}}
-@media(max-width:560px){.work-grid{grid-template-columns:1fr;}}
+.work-card:hover .play-btn,.work-card.is-paused .play-btn{transform:translate(-50%,-50%) scale(1);}
+.mute-btn{
+  position:absolute;top:14px;right:14px;width:38px;height:38px;border-radius:50%;
+  background:rgba(0,0,0,.45);border:1px solid rgba(255,255,255,.35);backdrop-filter:blur(6px);
+  display:flex;align-items:center;justify-content:center;color:#fff;font-size:15px;
+  z-index:3;transition:background .2s ease;
+}
+.mute-btn:hover{background:rgba(0,0,0,.7);}
+@media(max-width:900px){.work-grid{grid-template-columns:repeat(2,minmax(200px,280px));}}
+@media(max-width:560px){.work-grid{grid-template-columns:minmax(220px,320px);}}
 
 /* ---------- Contact ---------- */
 .contact{
@@ -572,23 +580,32 @@ footer a{color:var(--accent);}
   <div class="container">
     <div class="section-tag reveal">Selected Work</div>
     <h2 class="section-title reveal">Recent Edits</h2>
-    <p class="section-sub reveal">A few placeholder previews — swap these for your own showreel clips.</p>
+    <p class="section-sub reveal">Real reels — tap to play, tap the speaker icon for sound.</p>
 
     <div class="work-grid">
-      <div class="work-card reveal">
-        <video muted loop playsinline autoplay src="https://assets.mixkit.co/videos/41576/41576-720.mp4" onmouseover="this.play()" onmouseout="this.pause()"></video>
-        <div class="work-overlay"><span>Cinematic</span><h4>Travel Story</h4></div>
-        <div class="play-btn">▶</div>
+      <div class="work-card reveal" data-reel>
+        <video loop playsinline muted autoplay poster="assets/cinematic-reel-poster.jpg">
+          <source src="assets/cinematic-reel.mp4" type="video/mp4">
+        </video>
+        <div class="work-overlay"><span>Cinematic</span><h4>Cinematic Reel</h4></div>
+        <div class="play-btn" data-play-btn>▶</div>
+        <div class="mute-btn" data-mute-btn>🔇</div>
       </div>
-      <div class="work-card reveal">
-        <video muted loop playsinline autoplay src="https://assets.mixkit.co/videos/preview/mixkit-going-down-a-forest-trail-in-the-snow-32806-large.mp4" onmouseover="this.play()" onmouseout="this.pause()"></video>
-        <div class="work-overlay"><span>Long-Form</span><h4>Documentary Cut</h4></div>
-        <div class="play-btn">▶</div>
+      <div class="work-card reveal" data-reel>
+        <video loop playsinline muted autoplay poster="assets/promo-reel-poster.jpg">
+          <source src="assets/promo-reel.mp4" type="video/mp4">
+        </video>
+        <div class="work-overlay"><span>Promotional</span><h4>Promo Reel</h4></div>
+        <div class="play-btn" data-play-btn>▶</div>
+        <div class="mute-btn" data-mute-btn>🔇</div>
       </div>
-      <div class="work-card reveal">
-        <video muted loop playsinline autoplay src="https://assets.mixkit.co/videos/44070/44070-720.mp4" onmouseover="this.play()" onmouseout="this.pause()"></video>
-        <div class="work-overlay"><span>Brand Film</span><h4>Product Story</h4></div>
-        <div class="play-btn">▶</div>
+      <div class="work-card reveal" data-reel>
+        <video loop playsinline muted autoplay poster="assets/salon-reel-poster.jpg">
+          <source src="assets/salon-reel.mp4" type="video/mp4">
+        </video>
+        <div class="work-overlay"><span>Client Work</span><h4>Salon Reel</h4></div>
+        <div class="play-btn" data-play-btn>▶</div>
+        <div class="mute-btn" data-mute-btn>🔇</div>
       </div>
     </div>
   </div>
@@ -627,6 +644,57 @@ gsap.registerPlugin(ScrollTrigger);
 
 /* Year */
 document.getElementById('year').textContent = new Date().getFullYear();
+
+/* ============ Reel controls: play/pause + mute/unmute ============ */
+(function(){
+  const reels = document.querySelectorAll('[data-reel]');
+
+  reels.forEach(card => {
+    const video   = card.querySelector('video');
+    const playBtn = card.querySelector('[data-play-btn]');
+    const muteBtn = card.querySelector('[data-mute-btn]');
+
+    const syncPlayIcon = () => {
+      playBtn.textContent = video.paused ? '▶' : '❚❚';
+      card.classList.toggle('is-paused', video.paused);
+    };
+    const syncMuteIcon = () => {
+      muteBtn.textContent = video.muted ? '🔇' : '🔊';
+    };
+
+    // Toggle play / pause
+    playBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (video.paused) { video.play(); } else { video.pause(); }
+      syncPlayIcon();
+    });
+    card.addEventListener('click', () => {
+      if (video.paused) { video.play(); syncPlayIcon(); }
+    });
+
+    // Toggle mute / unmute — unmuting a reel mutes every other reel
+    muteBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const nowMuting = !video.muted;
+      if (!nowMuting) {
+        reels.forEach(other => {
+          if (other !== card) {
+            const otherVideo = other.querySelector('video');
+            otherVideo.muted = true;
+            other.querySelector('[data-mute-btn]').textContent = '🔇';
+          }
+        });
+      }
+      video.muted = nowMuting;
+      syncMuteIcon();
+    });
+
+    video.addEventListener('play', syncPlayIcon);
+    video.addEventListener('pause', syncPlayIcon);
+    syncPlayIcon();
+    syncMuteIcon();
+  });
+})();
 
 /* Preloader */
 gsap.to('.pre-logo span', {opacity:1, y:0, duration:.6, stagger:.05, ease:'power3.out'});
